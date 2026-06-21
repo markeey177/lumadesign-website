@@ -1,0 +1,21 @@
+<svg width="680" height="220" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="220" fill="white"/>
+
+  <!-- Diamond -->
+  <g transform="translate(171, 100)">
+    <polygon points="0,-24 20,0 0,24 -20,0" fill="#6366f1"/>
+    <polygon points="0,-12 10,0 0,12 -10,0" fill="white"/>
+    <circle cx="0" cy="0" r="3" fill="#6366f1"/>
+  </g>
+
+  <!-- luma -->
+  <text x="203" y="118" font-family="Inter, sans-serif" font-size="50" font-weight="700" letter-spacing="-2" fill="#09090b">luma</text>
+  <!-- design -->
+  <text x="351" y="118" font-family="Inter, sans-serif" font-size="50" font-weight="700" letter-spacing="-2" fill="#6366f1">design</text>
+
+  <!-- Line -->
+  <line x1="151" y1="136" x2="529" y2="136" stroke="#6366f1" stroke-width="1" opacity="0.3"/>
+
+  <!-- Tagline -->
+  <text x="340" y="160" font-family="Inter, sans-serif" font-size="12" font-weight="400" letter-spacing="3" fill="#71717a" text-anchor="middle">WEBSITES FOR SMALL BUSINESSES</text>
+</svg>
