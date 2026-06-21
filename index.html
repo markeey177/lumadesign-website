@@ -39,7 +39,7 @@
     .reveal {
       opacity: 0;
       transform: translateY(32px);
-      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+      transition: opacity 0.65s cubic-bezier(.16,1,.3,1), transform 0.65s cubic-bezier(.16,1,.3,1);
     }
     .reveal.from-left  { transform: translateX(-40px); }
     .reveal.from-right { transform: translateX(40px); }
@@ -58,7 +58,7 @@
     .hero-text > * {
       opacity: 0;
       transform: translateY(20px);
-      animation: heroEnter 0.7s cubic-bezier(.16,1,.3,1) forwards;
+      animation: heroEnter 0.65s cubic-bezier(.16,1,.3,1) forwards;
     }
     .hero-text > *:nth-child(1) { animation-delay: 0.1s; }
     .hero-text > *:nth-child(2) { animation-delay: 0.22s; }
@@ -81,8 +81,9 @@
       transition: background 0.3s, box-shadow 0.3s, padding 0.3s;
     }
     nav.scrolled {
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 1px 0 var(--gray-200);
       padding: 0.75rem 5%;
     }
@@ -110,11 +111,12 @@
     /* Hamburger */
     .hamburger {
       display: none; flex-direction: column; gap: 5px; cursor: pointer;
-      background: none; border: none; padding: 4px;
+      background: none; border: none; padding: 8px; min-width: 44px; min-height: 44px;
+      align-items: center; justify-content: center;
     }
     .hamburger span {
       display: block; width: 22px; height: 2px; background: var(--black);
-      border-radius: 2px; transition: transform 0.3s, opacity 0.3s;
+      border-radius: 2px; transition: transform 0.25s, opacity 0.25s;
     }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
@@ -123,14 +125,22 @@
     .mobile-menu {
       display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: var(--white); z-index: 190;
-      flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
+      flex-direction: column; align-items: center; justify-content: center; gap: 1.75rem;
     }
     .mobile-menu.open { display: flex; }
     .mobile-menu a {
       font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--black);
-      transition: color 0.2s;
+      transition: color 0.2s; padding: 0.25rem 0;
     }
     .mobile-menu a:hover { color: var(--accent); }
+    .mobile-menu-close {
+      position: absolute; top: 1rem; right: 5%;
+      background: none; border: none; cursor: pointer;
+      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+      color: var(--gray-400); font-size: 1.25rem; border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-menu-close:hover { background: var(--gray-100); color: var(--black); }
 
     /* ── HERO ── */
     .hero {
@@ -141,13 +151,24 @@
       background: var(--white);
     }
 
-    /* Subtle animated gradient background */
+    /* Dot grid background */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background-image: radial-gradient(circle, var(--gray-200) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.55;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    /* Gradient blobs */
     .hero::before {
       content: '';
       position: absolute; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse 800px 500px at 70% 40%, rgba(99,102,241,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 600px 400px at 20% 80%, rgba(99,102,241,0.05) 0%, transparent 70%);
+        radial-gradient(ellipse 800px 500px at 70% 40%, rgba(99,102,241,0.09) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 400px at 20% 80%, rgba(99,102,241,0.06) 0%, transparent 70%);
       animation: heroPulse 8s ease-in-out infinite alternate;
     }
     @keyframes heroPulse {
@@ -196,6 +217,7 @@
       display: inline-flex; align-items: center; gap: 0.5rem;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       box-shadow: 0 4px 14px var(--accent-glow);
+      min-height: 44px;
     }
     .btn-primary:hover {
       background: var(--accent-dark); transform: translateY(-2px);
@@ -208,6 +230,7 @@
       border: 1.5px solid var(--gray-200);
       display: inline-flex; align-items: center; gap: 0.5rem;
       transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      min-height: 44px;
     }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
@@ -322,7 +345,6 @@
       border: 1px solid #27272a; border-radius: var(--radius); padding: 1.75rem;
       cursor: default; position: relative; overflow: hidden;
     }
-    /* Spotlight glow follows mouse via JS */
     .problem-card::before {
       content: '';
       position: absolute;
@@ -350,13 +372,14 @@
     .service-card {
       background: var(--white); border: 1px solid var(--gray-200);
       border-radius: var(--radius); padding: 1.75rem; cursor: default;
+      transition: box-shadow 0.2s, transform 0.2s;
     }
+    .service-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.07); transform: translateY(-2px); }
     .service-icon {
       width: 46px; height: 46px; background: var(--accent-light); border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem; color: var(--accent); margin-bottom: 1.1rem;
     }
-    /* Icon pops in when card becomes visible */
     .service-card.visible .service-icon {
       animation: iconPop 0.5s cubic-bezier(.34,1.56,.64,1) both;
     }
@@ -387,24 +410,45 @@
     .ba-browser { background: var(--white); padding: 1rem; }
 
     /* Old site mock */
-    .old-hero { background: #c5c5c5; height: 80px; margin-bottom: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
-    .old-hero-text { font-size: 0.7rem; color: #555; font-weight: 700; font-family: 'Times New Roman', serif; }
-    .old-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    .old-box { background: #e8e8e8; border: 2px solid #aaa; border-radius: 2px; padding: 6px; }
-    .old-title-bar { height: 6px; background: #888; border-radius: 2px; margin-bottom: 4px; width: 70%; }
-    .old-text { height: 4px; background: #bbb; border-radius: 2px; margin-bottom: 3px; }
-    .old-btn { background: #336699; color: white; font-size: 0.55rem; padding: 2px 6px; border-radius: 2px; display: inline-block; margin-top: 4px; font-family: Arial, sans-serif; }
+    .old-site { background: #d1d5db; border-radius: 4px; overflow: hidden; }
+    .old-nav { background: #1e3a5f; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; }
+    .old-logo-text { color: #ccc; font-size: 0.6rem; font-family: 'Times New Roman', serif; font-weight: 700; }
+    .old-nav-links { display: flex; gap: 6px; }
+    .old-nav-link { background: #2d5a8a; color: #aaa; font-size: 0.45rem; padding: 2px 5px; border-radius: 2px; }
+    .old-hero { background: #c5c5c5; padding: 12px 10px; border-bottom: 3px solid #999; }
+    .old-hero-h { font-size: 0.65rem; font-family: 'Times New Roman', serif; color: #333; font-weight: 700; margin-bottom: 4px; }
+    .old-hero-p { font-size: 0.45rem; color: #555; line-height: 1.4; margin-bottom: 6px; }
+    .old-cta-btn { display: inline-block; background: #336699; color: white; font-size: 0.45rem; padding: 3px 8px; border-radius: 2px; }
+    .old-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 8px; background: #e0e0e0; }
+    .old-box { background: #eee; border: 1px solid #bbb; border-radius: 2px; padding: 6px; }
+    .old-box-title { height: 5px; background: #888; border-radius: 1px; margin-bottom: 3px; width: 75%; }
+    .old-box-line { height: 3px; background: #bbb; border-radius: 1px; margin-bottom: 2px; }
 
     /* New site mock */
-    .new-hero { background: linear-gradient(135deg, #eef2ff, #f8f9ff); height: 80px; margin-bottom: 8px; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; }
-    .new-hero-content { }
-    .new-h { height: 9px; background: var(--accent); border-radius: 4px; width: 100px; margin-bottom: 4px; }
-    .new-p { height: 6px; background: #c7d2fe; border-radius: 3px; width: 130px; }
-    .new-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-    .new-box { background: var(--white); border: 1px solid var(--gray-100); border-radius: 8px; padding: 8px; }
-    .new-icon-sq { width: 16px; height: 16px; background: var(--accent-light); border-radius: 4px; margin-bottom: 4px; }
-    .new-title { height: 6px; background: var(--black); border-radius: 3px; width: 70%; margin-bottom: 3px; }
-    .new-text { height: 4px; background: var(--gray-200); border-radius: 2px; margin-bottom: 2px; }
+    .new-site { background: var(--gray-50); border-radius: 8px; overflow: hidden; }
+    .new-nav { background: var(--white); border-bottom: 1px solid var(--gray-100); padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; }
+    .new-logo-bar { height: 7px; width: 56px; background: var(--accent); border-radius: 4px; }
+    .new-nav-pill { background: var(--accent); height: 16px; width: 50px; border-radius: 6px; }
+    .new-hero { background: linear-gradient(135deg, #eef2ff 0%, #f8f9ff 100%); padding: 14px 10px 10px; }
+    .new-badge { display: inline-block; background: var(--accent-light); height: 8px; width: 80px; border-radius: 100px; margin-bottom: 6px; }
+    .new-hero-h { height: 8px; background: var(--black); border-radius: 4px; margin-bottom: 4px; width: 90%; }
+    .new-hero-h2 { height: 8px; background: var(--black); border-radius: 4px; margin-bottom: 4px; width: 70%; }
+    .new-hero-p { height: 5px; background: var(--gray-300); border-radius: 3px; margin-bottom: 3px; }
+    .new-hero-p.s { width: 75%; }
+    .new-btn-row { display: flex; gap: 5px; margin-top: 8px; }
+    .new-btn-a { height: 18px; width: 70px; border-radius: 5px; background: var(--accent); }
+    .new-btn-b { height: 18px; width: 60px; border-radius: 5px; border: 1.5px solid var(--gray-200); }
+    .new-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; padding: 8px; background: var(--white); }
+    .new-card { background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 6px; padding: 7px; }
+    .new-card-icon { width: 14px; height: 14px; background: var(--accent-light); border-radius: 4px; margin-bottom: 4px; }
+    .new-card-line { height: 4px; background: var(--gray-200); border-radius: 2px; margin-bottom: 2px; }
+    .new-card-line.s { width: 60%; }
+
+    .ba-checklist { padding: 0.75rem 1rem; background: var(--gray-50); border-top: 1px solid var(--gray-100); }
+    .ba-check-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; color: var(--gray-500); margin-bottom: 0.35rem; }
+    .ba-check-item i { font-size: 0.6rem; }
+    .ba-check-item.bad  i { color: #ef4444; }
+    .ba-check-item.good i { color: #16a34a; }
 
     /* ── PORTFOLIO ── */
     .portfolio { background: var(--gray-50); }
@@ -412,7 +456,7 @@
     .portfolio-card {
       background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius);
       overflow: hidden; transition: transform 0.25s, box-shadow 0.25s;
-      cursor: pointer;
+      cursor: default;
     }
     .portfolio-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
 
@@ -475,46 +519,11 @@
     .step h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--black); }
     .step p { font-size: 0.82rem; color: var(--gray-500); line-height: 1.55; }
 
-    /* ── PRICING ── */
-    .pricing-section { background: var(--gray-50); }
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .price-card {
-      background: var(--white); border: 1.5px solid var(--gray-200);
-      border-radius: 18px; padding: 2rem; position: relative;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .price-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-    .price-card.featured {
-      border-color: var(--accent);
-      box-shadow: 0 8px 32px rgba(99,102,241,0.15);
-    }
-    .price-card.featured:hover { box-shadow: 0 16px 48px rgba(99,102,241,0.2); }
-    .popular-badge {
-      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: var(--white);
-      font-size: 0.7rem; font-weight: 700; padding: 0.28rem 0.85rem;
-      border-radius: 100px; letter-spacing: 0.05em; text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .price-name { font-size: 0.78rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
-    .price-amount { font-size: 2.75rem; font-weight: 800; color: var(--black); line-height: 1; margin-bottom: 0.3rem; letter-spacing: -1px; }
-    .price-amount sup { font-size: 1.2rem; font-weight: 700; vertical-align: super; }
-    .price-desc { font-size: 0.83rem; color: var(--gray-400); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-100); }
-    .price-features { list-style: none; margin-bottom: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; }
-    .price-features li {
-      font-size: 0.86rem; color: var(--gray-700);
-      display: flex; align-items: center; gap: 0.6rem;
-    }
-    .check-icon { width: 18px; height: 18px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .check-icon i { font-size: 0.55rem; color: #16a34a; }
-    .price-card.featured .check-icon { background: var(--accent-light); }
-    .price-card.featured .check-icon i { color: var(--accent); }
-
     /* ── TESTIMONIALS ── */
-    .testimonials { background: var(--white); }
+    .testimonials { background: var(--gray-50); }
     .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .testimonial {
-      background: var(--gray-50); border: 1px solid var(--gray-100);
+      background: var(--white); border: 1px solid var(--gray-100);
       border-radius: var(--radius); padding: 1.75rem; cursor: default;
     }
     .stars { display: flex; gap: 2px; margin-bottom: 1rem; color: #f59e0b; font-size: 0.9rem; }
@@ -541,7 +550,7 @@
     .author-biz { font-size: 0.775rem; color: var(--gray-400); }
 
     /* ── FAQ ── */
-    .faq-section { background: var(--gray-50); }
+    .faq-section { background: var(--white); }
     .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--gray-200); border-radius: var(--radius); overflow: hidden; margin-top: 3rem; }
     .faq-item { background: var(--white); padding: 1.5rem; cursor: pointer; }
     .faq-item:hover { background: var(--gray-50); }
@@ -553,6 +562,30 @@
     .faq-a { font-size: 0.85rem; color: var(--gray-500); line-height: 1.65; margin-top: 0.75rem; display: none; }
     .faq-item.open .faq-a { display: block; }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ── CUSTOM QUOTE ── */
+    .quote-section { background: var(--gray-50); }
+    .quote-factors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
+    .quote-cta-box {
+      background: linear-gradient(135deg, var(--accent-light) 0%, #f0f1ff 100%);
+      border: 1.5px solid rgba(99,102,241,0.18);
+      border-radius: 20px; padding: 3rem;
+      text-align: center; margin-top: 1rem;
+    }
+    .quote-cta-box h3 {
+      font-size: 1.6rem; font-weight: 800; color: var(--black);
+      letter-spacing: -0.5px; margin-bottom: 0.75rem;
+    }
+    .quote-cta-box p {
+      color: var(--gray-500); font-size: 1rem;
+      max-width: 480px; margin: 0 auto 1.75rem; line-height: 1.75;
+    }
+    .quote-tags { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .quote-tag {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 100px; padding: 0.3rem 0.85rem;
+      font-size: 0.78rem; font-weight: 500; color: var(--gray-700);
+    }
 
     /* ── CTA ── */
     .cta-section {
@@ -571,47 +604,9 @@
       background: var(--white); color: var(--accent);
       padding: 0.9rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 700;
       text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
-      transition: transform 0.15s, box-shadow 0.15s;
+      transition: transform 0.15s, box-shadow 0.15s; min-height: 44px;
     }
     .btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
-
-    /* ── CONTACT ── */
-    .contact-section { background: var(--white); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
-    .contact-info h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .contact-info > p { color: var(--gray-500); font-size: 0.92rem; margin-bottom: 2rem; line-height: 1.7; }
-    .contact-item { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 1.1rem; }
-    .ci-icon {
-      width: 38px; height: 38px; background: var(--accent-light);
-      border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      color: var(--accent); font-size: 0.875rem; flex-shrink: 0;
-    }
-    .ci-label { font-size: 0.72rem; color: var(--gray-400); font-weight: 500; }
-    .ci-val { font-size: 0.875rem; font-weight: 600; color: var(--black); }
-
-    form { display: flex; flex-direction: column; gap: 0.875rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; }
-    label { font-size: 0.78rem; font-weight: 600; color: var(--gray-700); margin-bottom: 0.3rem; display: block; }
-    input, textarea, select {
-      width: 100%; padding: 0.7rem 0.9rem;
-      border: 1.5px solid var(--gray-200); border-radius: 9px;
-      font-family: inherit; font-size: 0.875rem; color: var(--black);
-      background: var(--white); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
-    }
-    textarea { resize: vertical; min-height: 110px; }
-    .form-submit {
-      background: var(--accent); color: var(--white); border: none;
-      padding: 0.875rem; border-radius: 9px; font-family: inherit;
-      font-size: 0.95rem; font-weight: 600; cursor: pointer;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 14px var(--accent-glow);
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    }
-    .form-submit:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 8px 24px var(--accent-glow); }
 
     /* ── FOOTER ── */
     footer {
@@ -627,12 +622,13 @@
     .footer-desc { font-size: 0.85rem; color: #71717a; line-height: 1.65; max-width: 240px; margin-bottom: 1.25rem; }
     .footer-socials { display: flex; gap: 0.6rem; }
     .social-btn {
-      width: 34px; height: 34px; background: #18181b; border-radius: 8px;
+      width: 44px; height: 44px; background: #18181b; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      color: #71717a; font-size: 0.85rem; text-decoration: none;
+      color: #71717a; font-size: 0.9rem; text-decoration: none;
       transition: background 0.2s, color 0.2s;
+      border: 1px solid #27272a;
     }
-    .social-btn:hover { background: var(--accent); color: var(--white); }
+    .social-btn:hover { background: var(--accent); color: var(--white); border-color: var(--accent); }
     .footer-col h4 { font-size: 0.78rem; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
     .footer-col ul a { font-size: 0.85rem; color: #71717a; text-decoration: none; transition: color 0.2s; }
@@ -645,10 +641,10 @@
     /* ── BACK TO TOP ── */
     .back-top {
       position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
-      width: 42px; height: 42px; background: var(--accent); color: var(--white);
+      width: 44px; height: 44px; background: var(--accent); color: var(--white);
       border-radius: 12px; display: flex; align-items: center; justify-content: center;
       font-size: 0.85rem; cursor: pointer; border: none;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.2s;
       box-shadow: 0 4px 14px var(--accent-glow);
     }
     .back-top.visible { opacity: 1; pointer-events: all; }
@@ -658,13 +654,11 @@
 
     /* TV / large monitors (1920px+) */
     @media (min-width: 1920px) {
-      .section-inner, .hero-inner, .proof-inner, .cta-inner, .contact-grid { max-width: 1400px; }
+      .section-inner, .hero-inner, .proof-inner, .cta-inner { max-width: 1400px; }
       .hero h1 { font-size: 4.2rem; }
       .section-title { font-size: 3rem; }
       body { font-size: 18px; }
     }
-
-    /* Large desktop (1280–1919px) — default styles handle this fine */
 
     /* Laptop / small desktop (960–1279px) */
     @media (max-width: 1279px) {
@@ -675,34 +669,37 @@
 
     /* Tablet / iPad (768–959px) */
     @media (max-width: 959px) {
-      .hero-inner, .contact-grid { grid-template-columns: 1fr; }
+      .hero-inner { grid-template-columns: 1fr; }
       .hero-visual { display: none; }
       .hero { padding: 7rem 5% 4rem; min-height: auto; }
       .hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); }
-      .problem-grid, .services-grid, .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .problem-grid, .services-grid, .testimonials-grid, .quote-factors { grid-template-columns: 1fr 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
       .process-line { display: none; }
       .faq-grid { grid-template-columns: 1fr; }
+      .ba-wrapper { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .portfolio-grid { grid-template-columns: 1fr 1fr; }
       section { padding: 5rem 5%; }
-      /* Why section stacks on tablet */
-      [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+      .contact-grid { grid-template-columns: 1fr; }
     }
 
     /* Large phone / small tablet (640–767px) */
     @media (max-width: 767px) {
       .nav-links { display: none; }
       .hamburger { display: flex; }
-      .problem-grid, .services-grid, .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .problem-grid, .services-grid, .testimonials-grid, .quote-factors { grid-template-columns: 1fr 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; }
       .proof-inner { gap: 1rem; }
+      .portfolio-grid { grid-template-columns: 1fr 1fr; }
     }
 
     /* Mobile / iPhone (max 639px) */
     @media (max-width: 639px) {
-      .problem-grid, .services-grid, .testimonials-grid, .process-steps { grid-template-columns: 1fr; }
+      .problem-grid, .services-grid, .testimonials-grid, .process-steps, .quote-factors { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr; }
       .proof-divider { display: none; }
       .hero-buttons { flex-direction: column; align-items: flex-start; }
@@ -714,9 +711,10 @@
       .cta-section { padding: 4rem 5%; }
       nav { padding: 1rem 5%; }
       .back-top { bottom: 1.25rem; right: 1.25rem; }
+      .quote-cta-box { padding: 2rem 1.25rem; }
     }
 
-    /* Small phones (max 390px — iPhone SE, older Androids) */
+    /* Small phones (max 390px) */
     @media (max-width: 390px) {
       .hero h1 { font-size: 1.75rem; letter-spacing: -0.5px; }
       .hero p { font-size: 0.95rem; }
@@ -729,23 +727,28 @@
 <body>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Navigation menu">
+  <button class="mobile-menu-close" onclick="closeMobile()" aria-label="Close menu">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
   <a href="#services" onclick="closeMobile()">Services</a>
-  <a href="#pricing" onclick="closeMobile()">Pricing</a>
-  <a href="contact.html" onclick="closeMobile()" style="color:var(--accent)">Get Started →</a>
+  <a href="#work" onclick="closeMobile()">Our Work</a>
+  <a href="#process" onclick="closeMobile()">How It Works</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="contact.html" onclick="closeMobile()" style="color:var(--accent)">Get Started &#8594;</a>
 </div>
 
 <!-- NAV -->
-<nav id="mainNav">
+<nav id="mainNav" role="navigation" aria-label="Main navigation">
   <a href="#" class="logo"><div class="logo-dot"></div>luma<span>design</span></a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
+    <li><a href="#work">Our Work</a></li>
     <li><a href="#process">How It Works</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#pricing">Pricing</a></li>
     <li><a href="contact.html" class="nav-cta">Get Started</a></li>
   </ul>
-  <button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+  <button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -756,7 +759,7 @@
     <div class="hero-text">
       <div class="hero-badge"><div class="badge-dot"></div> Custom Web Design for Small Business</div>
       <h1>Your business deserves a website that <span class="gradient-text">actually works</span></h1>
-      <p>We build clean, modern, custom websites for small businesses — whether you're starting from scratch or finally ready to leave the old one behind.</p>
+      <p>We build clean, modern, custom websites for small businesses &mdash; whether you&rsquo;re starting from scratch or finally ready to leave the old one behind.</p>
       <div class="hero-buttons">
         <a href="contact.html" class="btn-primary">Get a Free Quote <i class="fa-solid fa-arrow-right"></i></a>
         <a href="#process" class="btn-secondary"><i class="fa-solid fa-arrow-down"></i> How It Works</a>
@@ -797,7 +800,7 @@
         </div>
         <div class="float-badge b1">
           <div class="fb-icon"><i class="fa-solid fa-bolt"></i></div>
-          <div><div class="fb-val">3× more leads</div><div class="fb-label">after launch</div></div>
+          <div><div class="fb-val">3&times; more leads</div><div class="fb-label">after launch</div></div>
         </div>
         <div class="float-badge b2">
           <div class="fb-icon"><i class="fa-solid fa-clock"></i></div>
@@ -815,7 +818,7 @@
     <div class="proof-divider"></div>
     <div class="proof-stat"><span class="proof-stat-num count-up" data-target="50" data-suffix="+">50+</span><span class="proof-stat-text">sites launched</span></div>
     <div class="proof-divider"></div>
-    <div class="proof-stat"><span class="proof-stat-num count-up" data-target="4.9" data-suffix="★" data-decimals="1">4.9★</span><span class="proof-stat-text">avg rating</span></div>
+    <div class="proof-stat"><span class="proof-stat-num count-up" data-target="4.9" data-suffix="&#9733;" data-decimals="1">4.9&#9733;</span><span class="proof-stat-text">avg rating</span></div>
     <div class="proof-divider"></div>
     <div class="proof-stat"><span class="proof-stat-num count-up" data-target="100" data-suffix="%">100%</span><span class="proof-stat-text">custom-built</span></div>
     <div class="proof-divider"></div>
@@ -833,19 +836,19 @@
     </div>
     <div class="problem-grid">
       <div class="problem-card reveal">
-        <div class="problem-icon"><i class="fa-solid fa-ban"></i></div>
+        <div class="problem-icon"><i class="fa-solid fa-ban" aria-hidden="true"></i></div>
         <h3>No website at all</h3>
-        <p>Over 70% of consumers check a business online before visiting. If you're not there, they go straight to a competitor who is.</p>
+        <p>Over 70% of consumers check a business online before visiting. If you&rsquo;re not there, they go straight to a competitor who is.</p>
       </div>
       <div class="problem-card reveal reveal-delay-2">
-        <div class="problem-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <div class="problem-icon"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></div>
         <h3>Outdated design</h3>
         <p>An old-looking site signals an old-looking business. Visitors make a judgment about your credibility in under 3 seconds.</p>
       </div>
       <div class="problem-card reveal reveal-delay-3">
-        <div class="problem-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+        <div class="problem-icon"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></div>
         <h3>Not mobile-friendly</h3>
-        <p>More than 60% of web traffic is on phones. A site that doesn't work on mobile loses more than half your potential visitors.</p>
+        <p>More than 60% of web traffic is on phones. A site that doesn&rsquo;t work on mobile loses more than half your potential visitors.</p>
       </div>
     </div>
   </div>
@@ -858,38 +861,233 @@
     <div class="section-header reveal">
       <div class="section-tag">What We Offer</div>
       <h2 class="section-title">Everything your business needs online</h2>
-      <p class="section-sub">We handle the whole thing — design, build, and launch — so you can focus on running your business.</p>
+      <p class="section-sub">We handle the whole thing &mdash; design, build, and launch &mdash; so you can focus on running your business.</p>
     </div>
     <div class="services-grid">
       <div class="service-card reveal reveal-delay-1">
-        <div class="service-icon"><i class="fa-solid fa-palette"></i></div>
+        <div class="service-icon"><i class="fa-solid fa-palette" aria-hidden="true"></i></div>
         <h3>Custom Design</h3>
-        <p>No templates. Every site is built to match your brand, your audience, and your goals — from scratch.</p>
+        <p>No templates. Every site is built to match your brand, your audience, and your goals &mdash; from scratch.</p>
       </div>
       <div class="service-card reveal reveal-delay-2">
-        <div class="service-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+        <div class="service-icon"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i></div>
         <h3>Mobile-First</h3>
         <p>Every site looks and works perfectly on phones, tablets, and desktops. No compromises.</p>
       </div>
       <div class="service-card reveal reveal-delay-3">
-        <div class="service-icon"><i class="fa-solid fa-rocket"></i></div>
-        <h3>Fast & Optimized</h3>
+        <div class="service-icon"><i class="fa-solid fa-rocket" aria-hidden="true"></i></div>
+        <h3>Fast &amp; Optimized</h3>
         <p>Fast-loading pages that rank higher on Google and keep visitors from bouncing before they even read a word.</p>
       </div>
       <div class="service-card reveal reveal-delay-1">
-        <div class="service-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="service-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></div>
         <h3>SEO Ready</h3>
         <p>Built with search engines in mind from day one, so new customers can actually find you on Google.</p>
       </div>
       <div class="service-card reveal reveal-delay-2">
-        <div class="service-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+        <div class="service-icon"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></div>
         <h3>Easy to Edit</h3>
         <p>We set you up with a simple CMS so you can update your own content anytime, no tech knowledge needed.</p>
       </div>
       <div class="service-card reveal reveal-delay-3">
-        <div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <div class="service-icon"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></div>
         <h3>Ongoing Support</h3>
-        <p>We don't disappear after launch. We're here for updates, fixes, and any changes you need down the road.</p>
+        <p>We don&rsquo;t disappear after launch. We&rsquo;re here for updates, fixes, and any changes you need down the road.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BEFORE / AFTER -->
+<section class="ba-section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">The Transformation</div>
+      <h2 class="section-title">Old website vs. LumaDesign</h2>
+      <p class="section-sub">See the night-and-day difference between a typical outdated site and what we build for your business.</p>
+    </div>
+    <div class="ba-wrapper">
+      <div class="ba-card reveal reveal-delay-1">
+        <div class="ba-label before"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Before &mdash; Typical DIY site</div>
+        <div class="ba-browser">
+          <div class="old-site">
+            <div class="old-nav">
+              <div class="old-logo-text">MY BUSINESS LLC</div>
+              <div class="old-nav-links">
+                <div class="old-nav-link">Home</div>
+                <div class="old-nav-link">About</div>
+                <div class="old-nav-link">Contact</div>
+              </div>
+            </div>
+            <div class="old-hero">
+              <div class="old-hero-h">Welcome to My Business!!</div>
+              <div class="old-hero-p">We are a company that provides services. Contact us for more information about what we do and how we can help you today.</div>
+              <div class="old-cta-btn">Click Here</div>
+            </div>
+            <div class="old-grid">
+              <div class="old-box"><div class="old-box-title"></div><div class="old-box-line"></div><div class="old-box-line"></div><div class="old-box-line"></div></div>
+              <div class="old-box"><div class="old-box-title"></div><div class="old-box-line"></div><div class="old-box-line"></div><div class="old-box-line"></div></div>
+              <div class="old-box"><div class="old-box-title"></div><div class="old-box-line"></div><div class="old-box-line"></div></div>
+              <div class="old-box"><div class="old-box-title"></div><div class="old-box-line"></div><div class="old-box-line"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ba-checklist">
+          <div class="ba-check-item bad"><i class="fa-solid fa-xmark"></i> Generic text, no real message</div>
+          <div class="ba-check-item bad"><i class="fa-solid fa-xmark"></i> Breaks on mobile</div>
+          <div class="ba-check-item bad"><i class="fa-solid fa-xmark"></i> Not found on Google</div>
+          <div class="ba-check-item bad"><i class="fa-solid fa-xmark"></i> No clear call to action</div>
+        </div>
+      </div>
+      <div class="ba-card reveal reveal-delay-2">
+        <div class="ba-label after"><i class="fa-solid fa-check" aria-hidden="true"></i> After &mdash; Built by LumaDesign</div>
+        <div class="ba-browser">
+          <div class="new-site">
+            <div class="new-nav">
+              <div class="new-logo-bar"></div>
+              <div class="new-nav-pill"></div>
+            </div>
+            <div class="new-hero">
+              <div class="new-badge"></div>
+              <div class="new-hero-h"></div>
+              <div class="new-hero-h2"></div>
+              <div class="new-hero-p"></div>
+              <div class="new-hero-p s"></div>
+              <div class="new-btn-row">
+                <div class="new-btn-a"></div>
+                <div class="new-btn-b"></div>
+              </div>
+            </div>
+            <div class="new-cards">
+              <div class="new-card"><div class="new-card-icon"></div><div class="new-card-line"></div><div class="new-card-line s"></div></div>
+              <div class="new-card"><div class="new-card-icon" style="background:#d1fae5"></div><div class="new-card-line"></div><div class="new-card-line s"></div></div>
+              <div class="new-card"><div class="new-card-icon" style="background:#fef3c7"></div><div class="new-card-line"></div><div class="new-card-line s"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ba-checklist">
+          <div class="ba-check-item good"><i class="fa-solid fa-check"></i> Clear message &amp; strong brand</div>
+          <div class="ba-check-item good"><i class="fa-solid fa-check"></i> Perfect on every device</div>
+          <div class="ba-check-item good"><i class="fa-solid fa-check"></i> Built to rank on Google</div>
+          <div class="ba-check-item good"><i class="fa-solid fa-check"></i> Converts visitors into calls</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="work">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Our Work</div>
+      <h2 class="section-title">Sites built for real businesses</h2>
+      <p class="section-sub">Every project is custom &mdash; no templates, no shortcuts. Here&rsquo;s a sample of what we&rsquo;ve created for businesses like yours.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-card reveal reveal-delay-1">
+        <div class="portfolio-thumb pt-1">
+          <div class="pt-browser">
+            <div class="pt-bar"><div class="pt-dot"></div><div class="pt-dot"></div><div class="pt-dot"></div></div>
+            <div class="pt-content">
+              <div class="pt-hl" style="width:80%"></div>
+              <div class="pt-pl"></div><div class="pt-pl s"></div>
+              <div class="pt-mini-grid"><div class="pt-mini-card"></div><div class="pt-mini-card"></div><div class="pt-mini-card"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-industry">Restaurant &amp; Food</div>
+          <div class="portfolio-name">Rosa's Artisan Bakery</div>
+          <div class="portfolio-desc">Menu showcase, online pre-order CTA, local SEO</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-2">
+        <div class="portfolio-thumb pt-2">
+          <div class="pt-browser">
+            <div class="pt-bar"><div class="pt-dot"></div><div class="pt-dot"></div><div class="pt-dot"></div></div>
+            <div class="pt-content">
+              <div class="pt-hl" style="width:70%"></div>
+              <div class="pt-pl"></div><div class="pt-pl s"></div>
+              <div class="pt-mini-grid"><div class="pt-mini-card"></div><div class="pt-mini-card"></div><div class="pt-mini-card"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-industry">Trades &amp; Home Services</div>
+          <div class="portfolio-name">T&amp;T Plumbing Co.</div>
+          <div class="portfolio-desc">Service pages, instant quote form, Google reviews</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-3">
+        <div class="portfolio-thumb pt-3">
+          <div class="pt-browser">
+            <div class="pt-bar"><div class="pt-dot"></div><div class="pt-dot"></div><div class="pt-dot"></div></div>
+            <div class="pt-content">
+              <div class="pt-hl" style="width:85%"></div>
+              <div class="pt-pl"></div><div class="pt-pl s"></div>
+              <div class="pt-mini-grid"><div class="pt-mini-card"></div><div class="pt-mini-card"></div><div class="pt-mini-card"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-industry">Health &amp; Wellness</div>
+          <div class="portfolio-name">Luz Yoga Studio</div>
+          <div class="portfolio-desc">Class schedule, booking integration, instructor bios</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-1">
+        <div class="portfolio-thumb pt-4">
+          <div class="pt-browser">
+            <div class="pt-bar"><div class="pt-dot"></div><div class="pt-dot"></div><div class="pt-dot"></div></div>
+            <div class="pt-content">
+              <div class="pt-hl" style="width:75%"></div>
+              <div class="pt-pl"></div><div class="pt-pl s"></div>
+              <div class="pt-mini-grid"><div class="pt-mini-card"></div><div class="pt-mini-card"></div><div class="pt-mini-card"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-industry">Healthcare</div>
+          <div class="portfolio-name">Maple Ridge Dental</div>
+          <div class="portfolio-desc">Patient portal, new patient forms, appointment CTA</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-2">
+        <div class="portfolio-thumb pt-5">
+          <div class="pt-browser">
+            <div class="pt-bar"><div class="pt-dot"></div><div class="pt-dot"></div><div class="pt-dot"></div></div>
+            <div class="pt-content">
+              <div class="pt-hl" style="width:80%"></div>
+              <div class="pt-pl"></div><div class="pt-pl s"></div>
+              <div class="pt-mini-grid"><div class="pt-mini-card"></div><div class="pt-mini-card"></div><div class="pt-mini-card"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-industry">Real Estate &amp; Inspection</div>
+          <div class="portfolio-name">Peak Home Inspections</div>
+          <div class="portfolio-desc">Service area map, credentials, online booking</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-3">
+        <div class="portfolio-thumb pt-6">
+          <div class="pt-browser">
+            <div class="pt-bar"><div class="pt-dot"></div><div class="pt-dot"></div><div class="pt-dot"></div></div>
+            <div class="pt-content">
+              <div class="pt-hl" style="width:70%"></div>
+              <div class="pt-pl"></div><div class="pt-pl s"></div>
+              <div class="pt-mini-grid"><div class="pt-mini-card"></div><div class="pt-mini-card"></div><div class="pt-mini-card"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-industry">Retail &amp; Boutique</div>
+          <div class="portfolio-name">The Bloom Collective</div>
+          <div class="portfolio-desc">Product gallery, seasonal promotions, contact form</div>
+        </div>
       </div>
     </div>
   </div>
@@ -909,7 +1107,7 @@
       <div class="step active reveal reveal-delay-1">
         <div class="step-num">1</div>
         <h3>You reach out</h3>
-        <p>Send us a quick message about your business. No forms, no commitment — just a conversation.</p>
+        <p>Send us a quick message about your business. No forms, no commitment &mdash; just a conversation.</p>
       </div>
       <div class="step active reveal reveal-delay-2">
         <div class="step-num">2</div>
@@ -923,8 +1121,8 @@
       </div>
       <div class="step active reveal reveal-delay-4">
         <div class="step-num">4</div>
-        <h3>You decide <i class="fa-solid fa-rocket" style="color:var(--accent);font-size:0.9em"></i></h3>
-        <p>If you love it, we finalize and launch. If not, no hard feelings — zero pressure, ever.</p>
+        <h3>You decide <i class="fa-solid fa-rocket" style="color:var(--accent);font-size:0.9em" aria-hidden="true"></i></h3>
+        <p>If you love it, we finalize and launch. If not, no hard feelings &mdash; zero pressure, ever.</p>
       </div>
     </div>
   </div>
@@ -937,22 +1135,22 @@
       <div class="reveal from-left">
         <div class="section-tag" style="color:#a5b4fc">Our Approach</div>
         <h2 class="section-title" style="color:white">Why we show before we charge</h2>
-        <p style="color:#71717a;font-size:1rem;line-height:1.75;margin-top:0.5rem">Most businesses have been burned before — paid for a website that didn't deliver. We built our process around eliminating that risk entirely.</p>
-        <p style="color:#71717a;font-size:1rem;line-height:1.75;margin-top:1rem">You get to see your actual site — built around your brand, your services, your city — before anything is agreed to. The price conversation only happens once you're already impressed.</p>
-        <a href="contact.html" class="btn-primary" style="margin-top:1.75rem;display:inline-flex">Get your free preview <i class="fa-solid fa-arrow-right"></i></a>
+        <p style="color:#71717a;font-size:1rem;line-height:1.75;margin-top:0.5rem">Most businesses have been burned before &mdash; paid for a website that didn&rsquo;t deliver. We built our process around eliminating that risk entirely.</p>
+        <p style="color:#71717a;font-size:1rem;line-height:1.75;margin-top:1rem">You get to see your actual site &mdash; built around your brand, your services, your city &mdash; before anything is agreed to. The price conversation only happens once you&rsquo;re already impressed.</p>
+        <a href="contact.html" class="btn-primary" style="margin-top:1.75rem;display:inline-flex">Get your free preview <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
       </div>
       <div class="reveal from-right" style="display:flex;flex-direction:column;gap:1rem">
         <div style="background:#111116;border:1px solid #27272a;border-radius:12px;padding:1.25rem;display:flex;gap:1rem;align-items:flex-start">
-          <div style="width:40px;height:40px;background:#18181b;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#a5b4fc;font-size:1rem;flex-shrink:0;border:1px solid #27272a"><i class="fa-solid fa-eye"></i></div>
-          <div><div style="color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem">See it before you sign anything</div><div style="color:#71717a;font-size:0.85rem;line-height:1.6">Your preview is a fully working website — not a mockup or a PDF. You click through it, see how it looks on your phone, and decide from there.</div></div>
+          <div style="width:44px;height:44px;background:#18181b;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#a5b4fc;font-size:1rem;flex-shrink:0;border:1px solid #27272a"><i class="fa-solid fa-eye" aria-hidden="true"></i></div>
+          <div><div style="color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem">See it before you sign anything</div><div style="color:#71717a;font-size:0.85rem;line-height:1.6">Your preview is a fully working website &mdash; not a mockup or a PDF. You click through it, see how it looks on your phone, and decide from there.</div></div>
         </div>
         <div style="background:#111116;border:1px solid #27272a;border-radius:12px;padding:1.25rem;display:flex;gap:1rem;align-items:flex-start">
-          <div style="width:40px;height:40px;background:#18181b;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#a5b4fc;font-size:1rem;flex-shrink:0;border:1px solid #27272a"><i class="fa-solid fa-tag"></i></div>
-          <div><div style="color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem">Pricing based on your project</div><div style="color:#71717a;font-size:0.85rem;line-height:1.6">Every business is different. After the preview call we'll give you a clear, flat-rate quote with no hourly billing or hidden fees.</div></div>
+          <div style="width:44px;height:44px;background:#18181b;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#a5b4fc;font-size:1rem;flex-shrink:0;border:1px solid #27272a"><i class="fa-solid fa-tag" aria-hidden="true"></i></div>
+          <div><div style="color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem">Pricing based on your project</div><div style="color:#71717a;font-size:0.85rem;line-height:1.6">Every business is different. After the preview call we&rsquo;ll give you a clear, flat-rate quote with no hourly billing or hidden fees.</div></div>
         </div>
         <div style="background:#111116;border:1px solid #27272a;border-radius:12px;padding:1.25rem;display:flex;gap:1rem;align-items:flex-start">
-          <div style="width:40px;height:40px;background:#18181b;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#a5b4fc;font-size:1rem;flex-shrink:0;border:1px solid #27272a"><i class="fa-solid fa-shield-halved"></i></div>
-          <div><div style="color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem">Zero risk, zero pressure</div><div style="color:#71717a;font-size:0.85rem;line-height:1.6">If you don't move forward, you keep the preview and owe us nothing. We'd rather earn your trust than your deposit.</div></div>
+          <div style="width:44px;height:44px;background:#18181b;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#a5b4fc;font-size:1rem;flex-shrink:0;border:1px solid #27272a"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+          <div><div style="color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem">Zero risk, zero pressure</div><div style="color:#71717a;font-size:0.85rem;line-height:1.6">If you don&rsquo;t move forward, you keep the preview and owe us nothing. We&rsquo;d rather earn your trust than your deposit.</div></div>
         </div>
       </div>
     </div>
@@ -969,25 +1167,25 @@
     <div class="testimonials-grid">
       <div class="testimonial reveal reveal-delay-1">
         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <blockquote>"We went from zero online presence to getting 5–10 new inquiries a week. LumaDesign completely changed our business."</blockquote>
+        <blockquote>&ldquo;We went from zero online presence to getting 5&ndash;10 new inquiries a week. LumaDesign completely changed our business.&rdquo;</blockquote>
         <div class="testimonial-author">
-          <div class="avatar">MR</div>
-          <div><div class="author-name">Maria R.</div><div class="author-biz">Rosa's Artisan Bakery</div></div>
+          <div class="avatar" aria-hidden="true">MR</div>
+          <div><div class="author-name">Maria R.</div><div class="author-biz">Rosa&rsquo;s Artisan Bakery</div></div>
         </div>
       </div>
       <div class="testimonial reveal reveal-delay-2">
         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <blockquote>"Our old website was embarrassing to share. The new one looks incredible and we've already seen a huge difference in customer trust."</blockquote>
+        <blockquote>&ldquo;Our old website was embarrassing to share. The new one looks incredible and we&rsquo;ve already seen a huge difference in customer trust.&rdquo;</blockquote>
         <div class="testimonial-author">
-          <div class="avatar">JT</div>
-          <div><div class="author-name">James T.</div><div class="author-biz">T&T Plumbing Co.</div></div>
+          <div class="avatar" aria-hidden="true">JT</div>
+          <div><div class="author-name">James T.</div><div class="author-biz">T&amp;T Plumbing Co.</div></div>
         </div>
       </div>
       <div class="testimonial reveal reveal-delay-3">
         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <blockquote>"Super professional, fast turnaround, and they actually listened to what I wanted. Couldn't be happier with how it turned out."</blockquote>
+        <blockquote>&ldquo;Super professional, fast turnaround, and they actually listened to what I wanted. Couldn&rsquo;t be happier with how it turned out.&rdquo;</blockquote>
         <div class="testimonial-author">
-          <div class="avatar">SL</div>
+          <div class="avatar" aria-hidden="true">SL</div>
           <div><div class="author-name">Sofia L.</div><div class="author-biz">Luz Yoga Studio</div></div>
         </div>
       </div>
@@ -1005,96 +1203,78 @@
     </div>
     <div class="faq-grid reveal">
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">How long does it take to build a website? <i class="fa-solid fa-plus faq-icon"></i></div>
-        <div class="faq-a">Most projects are complete within 5–10 business days. The Starter plan typically takes 3–5 days, Business takes 5–7 days, and Premium can take up to 10 days depending on scope.</div>
+        <div class="faq-q">How long does it take to build a website? <i class="fa-solid fa-plus faq-icon" aria-hidden="true"></i></div>
+        <div class="faq-a">Most projects are complete within 5&ndash;10 business days from the time we have your content and approval to move forward. Simpler sites can be done faster, and more complex builds may take a bit longer &mdash; we&rsquo;ll always be upfront about the timeline before we start.</div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Do I need to provide content and images? <i class="fa-solid fa-plus faq-icon"></i></div>
-        <div class="faq-a">You'll need to provide the text and any photos of your business. If you don't have photos, we can source high-quality stock imagery that fits your brand at no extra charge.</div>
+        <div class="faq-q">Do I need to provide content and images? <i class="fa-solid fa-plus faq-icon" aria-hidden="true"></i></div>
+        <div class="faq-a">You&rsquo;ll need to provide the text and any photos of your business. If you don&rsquo;t have photos, we can source high-quality stock imagery that fits your brand at no extra charge.</div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Will I be able to edit the site myself after launch? <i class="fa-solid fa-plus faq-icon"></i></div>
+        <div class="faq-q">Will I be able to edit the site myself after launch? <i class="fa-solid fa-plus faq-icon" aria-hidden="true"></i></div>
         <div class="faq-a">Yes! All our sites are set up with a simple content management system. You can update text, images, hours, and more without any technical knowledge. We walk you through it after launch.</div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">What if I don't like the initial design? <i class="fa-solid fa-plus faq-icon"></i></div>
-        <div class="faq-a">No worries — that's what revision rounds are for. We work with you until you love it. Our goal is a site you're proud to share, and we won't stop until we get there.</div>
+        <div class="faq-q">What if I don&rsquo;t like the initial design? <i class="fa-solid fa-plus faq-icon" aria-hidden="true"></i></div>
+        <div class="faq-a">No worries &mdash; that&rsquo;s what revision rounds are for. We work with you until you love it. Our goal is a site you&rsquo;re proud to share, and we won&rsquo;t stop until we get there.</div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Does the price include hosting? <i class="fa-solid fa-plus faq-icon"></i></div>
-        <div class="faq-a">Your quote covers design and development. Hosting and domain are separate — we'll recommend the best options for your budget and walk you through the whole setup.</div>
+        <div class="faq-q">Does the price include hosting? <i class="fa-solid fa-plus faq-icon" aria-hidden="true"></i></div>
+        <div class="faq-a">Your quote covers design and development. Hosting and domain are separate &mdash; we&rsquo;ll recommend the best options for your budget and walk you through the whole setup.</div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">What happens after my support period ends? <i class="fa-solid fa-plus faq-icon"></i></div>
-        <div class="faq-a">You can continue with a monthly maintenance plan, or reach out on a project-by-project basis for updates and changes. We're always available — the support period just means priority response time.</div>
+        <div class="faq-q">What happens after my support period ends? <i class="fa-solid fa-plus faq-icon" aria-hidden="true"></i></div>
+        <div class="faq-a">You can continue with a monthly maintenance plan, or reach out on a project-by-project basis for updates and changes. We&rsquo;re always available &mdash; the support period just means priority response time.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
+<!-- CUSTOM QUOTE -->
+<section class="quote-section" id="pricing">
   <div class="section-inner">
     <div class="section-header reveal">
       <div class="section-tag">Pricing</div>
-      <h2 class="section-title">Clear, flat-rate pricing</h2>
-      <p class="section-sub">No hourly billing, no hidden fees. Pick a package or reach out and we'll quote your project directly.</p>
+      <h2 class="section-title">Every quote is built around your project</h2>
+      <p class="section-sub">We don&rsquo;t believe in one-size-fits-all pricing. Every business is different, and so is every website &mdash; so your quote reflects exactly what your project needs.</p>
     </div>
-    <div class="pricing-grid">
-      <div class="price-card reveal reveal-delay-1">
-        <div class="price-name">Starter</div>
-        <div class="price-amount"><sup>$</sup>799</div>
-        <div class="price-desc">Perfect for getting online fast — a clean, professional site that works.</div>
-        <ul class="price-features">
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Up to 3 pages</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Mobile-friendly design</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Contact form included</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Free preview before you pay</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Delivered in ~5 days</li>
-        </ul>
-        <a href="contact.html" class="btn-primary" style="display:flex;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+    <div class="quote-factors">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
+        <h3>Scope &amp; Pages</h3>
+        <p>A one-page site and a 10-page site with a gallery, booking, and blog are very different projects &mdash; and priced accordingly.</p>
       </div>
-      <div class="price-card featured reveal reveal-delay-2">
-        <div class="popular-badge">Most Popular</div>
-        <div class="price-name">Business</div>
-        <div class="price-amount"><sup>$</sup>1,299</div>
-        <div class="price-desc">The full package — more pages, more features, built to convert visitors into customers.</div>
-        <ul class="price-features">
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Up to 6 pages</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Mobile-first design</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Contact form + Google Maps</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Google Analytics setup</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Basic SEO optimization</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>30 days of support</li>
-        </ul>
-        <a href="contact.html" class="btn-primary" style="display:flex;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
+        <h3>Design Complexity</h3>
+        <p>Simple and clean or highly custom and animated &mdash; whatever level of design your brand calls for, we match the quote to the work.</p>
       </div>
-      <div class="price-card reveal reveal-delay-3">
-        <div class="price-name">Premium</div>
-        <div class="price-amount"><sup>$</sup>1,999</div>
-        <div class="price-desc">For businesses that need more — e-commerce, booking systems, or a fully custom build.</div>
-        <ul class="price-features">
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Unlimited pages</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>E-commerce or booking</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Advanced SEO</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Speed &amp; performance optimization</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>60 days of priority support</li>
-          <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>Custom features on request</li>
-        </ul>
-        <a href="contact.html" class="btn-primary" style="display:flex;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon"><i class="fa-solid fa-code" aria-hidden="true"></i></div>
+        <h3>Features &amp; Functions</h3>
+        <p>Contact forms, booking systems, galleries, e-commerce &mdash; the features your site needs are factored into your quote.</p>
       </div>
     </div>
-    <p style="text-align:center;margin-top:2rem;font-size:0.875rem;color:var(--gray-500)">All prices in CAD. Not sure which fits? <a href="contact.html" style="color:var(--accent);font-weight:600">Get a free preview first →</a></p>
+    <div class="quote-cta-box reveal">
+      <h3>See your site first &mdash; then we&rsquo;ll talk numbers</h3>
+      <p>We build your preview completely free. Once you see it and love it, we give you a clear flat-rate quote with no hidden fees or hourly billing. You only pay if you&rsquo;re impressed.</p>
+      <div class="quote-tags">
+        <span class="quote-tag">Flat-rate pricing</span>
+        <span class="quote-tag">No hidden fees</span>
+        <span class="quote-tag">No hourly billing</span>
+        <span class="quote-tag">Free preview first</span>
+      </div>
+      <a href="contact.html" class="btn-primary" style="display:inline-flex">Get My Free Quote <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
   </div>
 </section>
-
 
 <!-- CTA -->
 <section class="cta-section">
   <div class="cta-inner reveal">
     <h2>See your new website before you pay anything</h2>
-    <p>Send us a message, and we'll build you a real working preview of your site — completely free, no strings attached.</p>
-    <a href="contact.html" class="btn-white">Get My Free Preview <i class="fa-solid fa-arrow-right"></i></a>
+    <p>Send us a message, and we&rsquo;ll build you a real working preview of your site &mdash; completely free, no strings attached.</p>
+    <a href="contact.html" class="btn-white">Get My Free Preview <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
   </div>
 </section>
 
@@ -1106,9 +1286,9 @@
       <div class="footer-logo">luma<span>design</span></div>
       <p class="footer-desc">Custom websites for small businesses that want to look professional, get found on Google, and actually convert visitors into customers.</p>
       <div class="footer-socials">
-        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
       </div>
     </div>
     <div class="footer-col">
@@ -1124,6 +1304,7 @@
     <div class="footer-col">
       <h4>Company</h4>
       <ul>
+        <li><a href="#work">Our Work</a></li>
         <li><a href="#process">How It Works</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="contact.html">Contact</a></li>
@@ -1133,23 +1314,24 @@
       <h4>Get Started</h4>
       <ul>
         <li><a href="contact.html">Get Your Free Preview</a></li>
+        <li><a href="#pricing">Pricing</a></li>
         <li><a href="#process">How It Works</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 LumaDesign. All rights reserved.</p>
+    <p>&copy; 2026 LumaDesign. All rights reserved.</p>
     <div style="display:flex;gap:1.5rem">
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
     </div>
   </div>
 </footer>
 
 <!-- BACK TO TOP -->
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
-  <i class="fa-solid fa-arrow-up"></i>
+  <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
 </button>
 
 <script>
@@ -1158,18 +1340,23 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
     document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
-  });
+  }, { passive: true });
 
   // ── Mobile menu
   function toggleMobile() {
     const menu = document.getElementById('mobileMenu');
     const burger = document.getElementById('hamburger');
-    menu.classList.toggle('open');
-    burger.classList.toggle('open');
+    const isOpen = menu.classList.toggle('open');
+    burger.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
   function closeMobile() {
     document.getElementById('mobileMenu').classList.remove('open');
-    document.getElementById('hamburger').classList.remove('open');
+    const burger = document.getElementById('hamburger');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
   }
 
   // ── Scroll reveal + special hooks
@@ -1179,12 +1366,9 @@
       const el = entry.target;
       el.classList.add('visible');
 
-      // Animate process line
       if (el.id === 'processSteps') {
         setTimeout(() => document.getElementById('processLine').classList.add('animate'), 200);
       }
-
-      // Counter animation for proof strip numbers
       if (el.classList.contains('count-up')) {
         animateCounter(el);
         observer.unobserve(el);
@@ -1207,7 +1391,7 @@
     const start = performance.now();
     function step(now) {
       const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
       const value = eased * target;
       el.textContent = prefix + value.toFixed(decimals) + suffix;
       if (progress < 1) requestAnimationFrame(step);
@@ -1231,21 +1415,6 @@
     if (!wasOpen) el.classList.add('open');
   }
 
-  // ── Contact form
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
-    btn.style.background = '#16a34a';
-    btn.style.boxShadow = '0 4px 14px rgba(22,163,74,0.3)';
-    setTimeout(() => {
-      btn.innerHTML = 'Send Message <i class="fa-solid fa-paper-plane"></i>';
-      btn.style.background = '';
-      btn.style.boxShadow = '';
-      e.target.reset();
-    }, 3500);
-  }
-
   // ── Smooth nav scroll offset
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
@@ -1257,7 +1426,7 @@
     });
   });
 
-  // ── Staggered reveal for service cards and testimonials (for icon/star anims)
+  // ── Staggered reveal for service cards and testimonials
   document.querySelectorAll('.service-card, .testimonial').forEach(el => observer.observe(el));
 </script>
 </body>
