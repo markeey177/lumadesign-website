@@ -1,0 +1,4 @@
+name = "lumadesign"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+account_id = "118276450d21c563cd2e1be6c1025fee"

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Your Free Preview — LumaDesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #09090b;
+      --white: #ffffff;
+      --gray-50: #fafafa;
+      --gray-100: #f4f4f5;
+      --gray-200: #e4e4e7;
+      --gray-400: #a1a1aa;
+      --gray-500: #71717a;
+      --gray-700: #3f3f46;
+      --accent: #6366f1;
+      --accent-light: #eef2ff;
+      --accent-dark: #4f46e5;
+      --accent-glow: rgba(99,102,241,0.25);
+      --radius: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 5%;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--gray-200);
+    }
+    .logo {
+      font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;
+      color: var(--black); text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .logo-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+    .logo span { color: var(--accent); }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.875rem; font-weight: 500; color: var(--gray-500);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* ── ENTRANCE ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeLeft {
+      from { opacity: 0; transform: translateX(-28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeRight {
+      from { opacity: 0; transform: translateX(28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* left panel elements */
+    .left-tag    { opacity: 0; animation: fadeLeft 0.55s cubic-bezier(.16,1,.3,1) 0.05s forwards; }
+    .left-panel h1 { opacity: 0; animation: fadeLeft 0.6s cubic-bezier(.16,1,.3,1) 0.15s forwards; }
+    .left-panel > .left-inner > p { opacity: 0; animation: fadeLeft 0.6s cubic-bezier(.16,1,.3,1) 0.25s forwards; }
+
+    .step-item:nth-child(1) { opacity: 0; animation: fadeLeft 0.55s cubic-bezier(.16,1,.3,1) 0.32s forwards; }
+    .step-item:nth-child(2) { opacity: 0; animation: fadeLeft 0.55s cubic-bezier(.16,1,.3,1) 0.42s forwards; }
+    .step-item:nth-child(3) { opacity: 0; animation: fadeLeft 0.55s cubic-bezier(.16,1,.3,1) 0.52s forwards; }
+
+    /* right panel — form slides in from right */
+    .form-card { opacity: 0; animation: fadeRight 0.7s cubic-bezier(.16,1,.3,1) 0.2s forwards; }
+
+    /* divider line between panels */
+    .left-contact { opacity: 0; animation: fadeUp 0.5s ease 0.65s forwards; }
+
+    /* ── PAGE LAYOUT ── */
+    .page-wrap {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      overflow: hidden;
+    }
+
+    /* LEFT PANEL */
+    .left-panel {
+      background: var(--black);
+      padding: 5rem 5% 2rem 5%;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .left-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(99,102,241,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 300px at 80% 80%, rgba(99,102,241,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .left-inner { position: relative; z-index: 1; max-width: 440px; }
+
+    .left-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #a5b4fc; margin-bottom: 0.75rem;
+    }
+    .left-tag::before { content: ''; width: 16px; height: 2px; background: #a5b4fc; border-radius: 1px; }
+
+    .left-panel h1 {
+      font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+      font-weight: 800; line-height: 1.15; letter-spacing: -1px;
+      color: var(--white); margin-bottom: 0.6rem;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, #818cf8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .left-panel p {
+      color: #71717a; font-size: 0.875rem; line-height: 1.65; margin-bottom: 1.5rem;
+    }
+
+    .steps-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .step-item { display: flex; align-items: center; gap: 0.75rem; }
+    .step-circle {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #18181b; border: 1px solid #27272a;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 700; color: #a5b4fc;
+      flex-shrink: 0;
+    }
+    .step-item span { font-size: 0.85rem; font-weight: 500; color: #a1a1aa; }
+
+    .left-contact {
+      margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #27272a;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .lc-icon { width: 28px; height: 28px; background: #18181b; border: 1px solid #27272a; border-radius: 7px; display: flex; align-items: center; justify-content: center; color: #a5b4fc; font-size: 0.7rem; flex-shrink: 0; }
+    .lc-value { font-size: 0.875rem; font-weight: 500; color: #a1a1aa; }
+
+    /* RIGHT PANEL */
+    .right-panel {
+      background: var(--gray-50);
+      padding: 5rem 5% 2rem;
+      display: flex; align-items: center; justify-content: center;
+      overflow-y: auto;
+    }
+    .form-wrap { width: 100%; max-width: 500px; }
+
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    }
+
+    .form-header { margin-bottom: 1.25rem; }
+    .form-header h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .form-header p { font-size: 0.82rem; color: var(--gray-500); }
+
+    form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.25rem; }
+    label { font-size: 0.74rem; font-weight: 600; color: var(--gray-700); }
+    input, textarea, select {
+      width: 100%; padding: 0.6rem 0.85rem;
+      border: 1.5px solid var(--gray-200); border-radius: 8px;
+      font-family: inherit; font-size: 0.85rem; color: var(--black);
+      background: var(--white); outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .form-submit {
+      background: var(--accent); color: var(--white); border: none;
+      padding: 0.75rem; border-radius: 9px; font-family: inherit;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px var(--accent-glow);
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .form-submit:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 8px 24px var(--accent-glow); }
+
+    .form-note { font-size: 0.775rem; color: var(--gray-400); text-align: center; margin-top: 0.5rem; }
+
+    /* ── SUCCESS STATE ── */
+    .success-state {
+      display: none; text-align: center; padding: 2rem 0;
+    }
+    .success-icon {
+      width: 64px; height: 64px; background: #dcfce7; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.5rem; color: #16a34a;
+      animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+    .success-state h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .success-state p { font-size: 0.9rem; color: var(--gray-500); line-height: 1.6; }
+    .success-back { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+    .success-back:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; height: auto; overflow: visible; }
+      .left-panel { padding: 6rem 5% 3rem; }
+      .left-inner { max-width: 100%; }
+      .right-panel { padding: 3rem 5% 4rem; overflow-y: visible; }
+    }
+    @media (max-width: 520px) {
+      .form-card { padding: 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .left-panel h1 { font-size: 1.7rem; }
+      .left-contact { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo"><div class="logo-dot"></div>luma<span>design</span></a>
+  <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Back to home</a>
+</nav>
+
+<!-- PAGE -->
+<div class="page-wrap">
+
+  <!-- LEFT -->
+  <div class="left-panel">
+    <div class="left-inner">
+      <div class="left-tag">Free Preview</div>
+      <h1>See your website<br><span class="gradient-text">before you pay</span></h1>
+      <p>Fill in the form and we'll build a real working preview of your site — completely free. Then we'll hop on a call so you can see it live and decide from there.</p>
+
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-circle">1</div>
+          <span>Fill in the form</span>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">2</div>
+          <span>We build your free preview</span>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <span>We walk through it on a call</span>
+        </div>
+      </div>
+
+      <div class="left-contact">
+        <div class="lc-icon"><i class="fa-solid fa-envelope"></i></div>
+        <div class="lc-value">info@lumadesign.ca</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-panel">
+    <div class="form-wrap">
+      <div class="form-card">
+
+        <div id="formContent">
+          <div class="form-header">
+            <h2>Get your free preview</h2>
+            <p>Takes 2 minutes — we'll take it from there.</p>
+          </div>
+          <form id="contactForm" onsubmit="handleSubmit(event)">
+            <input type="hidden" name="access_key" value="5c517894-32e9-49a5-844e-ae4bde56f5b9"/>
+            <input type="hidden" name="subject" value="New Website Preview Request — LumaDesign"/>
+            <input type="hidden" name="from_name" value="LumaDesign Contact Form"/>
+            <input type="hidden" name="redirect" value="false"/>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Your name</label>
+                <input type="text" name="name" placeholder="Jane Smith" required/>
+              </div>
+              <div class="form-group">
+                <label>Email address</label>
+                <input type="email" name="email" placeholder="jane@yourbiz.com" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Business name</label>
+              <input type="text" name="business_name" placeholder="Your Business Name"/>
+            </div>
+            <div class="form-group">
+              <label>Phone number <span style="color:var(--gray-400);font-weight:400">(optional)</span></label>
+              <input type="tel" name="phone" placeholder="(604) 000-0000"/>
+            </div>
+            <div class="form-group">
+              <label>What do you need?</label>
+              <select name="project_type">
+                <option value="" disabled selected>Choose one…</option>
+                <option>Brand new website — I have nothing right now</option>
+                <option>Redesign — my current site is outdated</option>
+                <option>E-commerce store</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tell us about your business</label>
+              <textarea name="message" placeholder="What do you do? Who are your customers? What city are you in? The more detail, the better your preview will be."></textarea>
+            </div>
+            <button type="submit" class="form-submit" id="submitBtn">
+              Request My Free Preview <i class="fa-solid fa-paper-plane"></i>
+            </button>
+            <p class="form-note"><i class="fa-solid fa-lock" style="font-size:0.7rem"></i> No payment info required. We'll never spam you.</p>
+          </form>
+        </div>
+
+        <div class="success-state" id="successState">
+          <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+          <h3>You're all set!</h3>
+          <p>We got your message and we'll start working on your preview right away. Expect to hear from us within 24 hours to schedule your walkthrough call.</p>
+          <a href="index.html" class="success-back"><i class="fa-solid fa-arrow-left"></i> Back to home</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
+
+    const formData = new FormData(document.getElementById('contactForm'));
+    const data = Object.fromEntries(formData);
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (json.success) {
+        document.getElementById('formContent').style.display = 'none';
+        document.getElementById('successState').style.display = 'block';
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = 'Request My Free Preview <i class="fa-solid fa-paper-plane"></i>';
+        alert('Something went wrong. Please try again or email us directly at info@lumadesign.ca');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.innerHTML = 'Request My Free Preview <i class="fa-solid fa-paper-plane"></i>';
+      alert('Something went wrong. Please try again or email us directly at info@lumadesign.ca');
+    }
+  }
+</script>
+</body>
+</html>
